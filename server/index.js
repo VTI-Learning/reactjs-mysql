@@ -1,5 +1,13 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const app = express();
+const mysql = require('mysql');
+
+const dataBase = mysql.createPool({
+    host: 'localhost',
+    database:'reactjs_mysql',
+    user:'root',
+    password:''
+});
 
 app.listen(3001, () => {
     console.log('runnig on port 3001');
@@ -7,5 +15,9 @@ app.listen(3001, () => {
 
 // Primera ruta creada
 app.get('/',(req,res) => {
-    res.send('Hola mundo, ¿qué tal estás?');
+    const sqlInsert = "INSERT INTO movies (name,description) VALUES ('Test','Test')"
+    dataBase.query(sqlInsert,(error, result) =>{
+        //res.send();
+        res.send('Hola mundo, ¿qué tal estás?');
+    });
 });
