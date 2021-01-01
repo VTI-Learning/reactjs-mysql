@@ -41,3 +41,22 @@ app.post('/api/movie/add',(req,res) => {
         console.log(result);
     });
 });
+
+app.put('/api/movie/update',(req,res) => {
+    const movieName = req.body.updateName;
+    const movieDescription = req.body.updateDescription;
+    const sqlUpdate = "UPDATE movies SET description = ? WHERE name = ?"
+    dataBase.query(sqlUpdate, [movieDescription,movieName], (error,result) => {
+        if (error) console.error(error)
+        else console.log(result);
+    });
+});
+
+app.delete('/api/movie/delete/:id',(req,res) => {
+    const idMovie = req.params.id;
+    const sqlDelete = "DELETE FROM movies WHERE id = ?"
+    dataBase.query(sqlDelete, idMovie, (error,result) => {
+        if (error) console.error(error)
+        else console.info(result);
+    });
+});

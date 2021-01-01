@@ -6,15 +6,28 @@ function App() {
 
   const [movieName, setMoviename] = useState(''); 
   const [description, setDescription] = useState(''); 
-  const [movieList, setMovieList] = useState([]); 
+  const [movieList, setMovieList] = useState([]);
+  const [updateMovieDescription, setUpdateMovieDescription] = useState(''); 
 
   const submitAddMovie = () => {
     Axios.post('http://localhost:3001/api/movie/add', {
       movieName: movieName, 
       movieDescription:description
     }).then(() => {
-      alert("Se ha insertado correctamente.");
+      setMovieList(...movieList,{movieName: movieName, movieDescription:description});
     });
+  };
+
+  const submitUpdateMovie = (movie) => {
+    Axios.put('http://localhost:3001/api/movie/update', { 
+      updateName: movie, 
+      updateDescription:updateMovieDescription
+    });
+    setUpdateMovieDescription("");
+  };
+
+  const submitDeleteMovie = (movie) => {
+    Axios.delete(`http://localhost:3001/api/movie/delete/${movie}`)
   };
 
   useEffect(() => {
@@ -30,9 +43,9 @@ function App() {
       </header>
 
       <div className="form-container p-1">
-        <form className="form" method="POST">
+        <form className="form">
           <div className="form-section">
-            <label className="text-light">Name</label>
+            <label htmlFor="movieName" className="text-light">Name</label>
             <input 
               type="text" 
               name="movieName" 
@@ -42,7 +55,7 @@ function App() {
             />
           </div>
           <div className="form-section">
-            <label className="text-light">Description</label>
+            <label htmlFor="movieDescription" className="text-light">Description</label>
             <input 
               type="text" 
               name="movieDescription" 
@@ -58,9 +71,12 @@ function App() {
       <div className="container p-1">
         <table>
           <thead>
+            <tr>
               <th>ID</th>
               <th>Name</th>
               <th>Description</th>
+              <th>Actions</th>
+            </tr>
           </thead>
           <tbody>
               {movieList.map((val) => {
@@ -68,6 +84,13 @@ function App() {
                           <td>{val.id}</td>
                           <td>{val.name}</td>
                           <td>{val.description}</td>
+                          <td><button onClick={() => {submitDeleteMovie(val.id)}}>Delete</button></td>
+                          <td>
+                            <input type="text" name="updateMovieDescription" onChange={(e)=> {
+                              setUpdateMovieDescription(e.target.value)
+                            }}></input>
+                            <button onClick={() => {submitUpdateMovie(val.name)}}>Update</button>
+                          </td>
                         </tr>;
               })}
           </tbody>
