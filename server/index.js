@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 
+// Crear un pool para conectar a la base de datos
 const dataBase = mysql.createPool({
     host: 'localhost',
     database:'reactjs_mysql',
