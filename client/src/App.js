@@ -20,7 +20,7 @@ function App() {
 
   const submitUpdateMovie = (movie) => {
     Axios.put('http://localhost:3001/api/movie/update', { 
-      updateName: movie, 
+      movieId: movie, 
       updateDescription:updateMovieDescription
     });
     setUpdateMovieDescription("");
@@ -89,7 +89,7 @@ function App() {
                             <input type="text" name="updateMovieDescription" onChange={(e)=> {
                               setUpdateMovieDescription(e.target.value)
                             }}></input>
-                            <button onClick={() => {submitUpdateMovie(val.name)}}>Update</button>
+                            <button onClick={() => {submitUpdateMovie(val.id)}}>Update</button>
                           </td>
                         </tr>;
               })}

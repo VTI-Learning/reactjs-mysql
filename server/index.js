@@ -43,10 +43,10 @@ app.post('/api/movie/add',(req,res) => {
 });
 
 app.put('/api/movie/update',(req,res) => {
-    const movieName = req.body.updateName;
+    const movieId = req.body.movieId;
     const movieDescription = req.body.updateDescription;
-    const sqlUpdate = "UPDATE movies SET description = ? WHERE name = ?"
-    dataBase.query(sqlUpdate, [movieDescription,movieName], (error,result) => {
+    const sqlUpdate = "UPDATE movies SET description = ? WHERE id = ?"
+    dataBase.query(sqlUpdate, [movieDescription,movieId], (error,result) => {
         if (error) console.error(error)
         else console.log(result);
     });
